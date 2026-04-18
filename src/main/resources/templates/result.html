@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Kết Quả Bài Thi</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding-top: 50px; background-color: #f4f7f6; }
+        .container { max-width: 600px; margin: 0 auto; background: white; padding: 40px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        h1 { color: #4CAF50; }
+        .score { font-size: 48px; color: #E53935; font-weight: bold; margin: 20px 0; }
+        .note { color: #888; font-style: italic; font-size: 14px; margin-bottom: 30px; }
+        .essay-box { background: #f9f9f9; padding: 20px; border-left: 4px solid #2196F3; text-align: left; white-space: pre-wrap; word-wrap: break-word; }
+        .back-btn { display: inline-block; margin-top: 30px; padding: 10px 20px; background-color: #2196F3; color: white; text-decoration: none; border-radius: 4px; }
+        .back-btn:hover { background-color: #0b7dda; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Hoàn Thành Bài Kiểm Tra!</h1>
+        
+        <h3>Điểm trắc nghiệm tự động của bạn:</h3>
+        <div class="score"><span th:text="${diemSo}"></span> / <span th:text="${diemToiDa}"></span></div>
+        
+        <p class="note">* Lưu ý: Phần tự luận (Câu 3) máy chấm chưa hỗ trợ, giáo viên sẽ xem xét và cộng điểm sau cho bạn.</p>
+        
+        <hr style="border: 1px solid #eee; margin: 30px 0;">
+        
+        <h3>Bài làm tự luận của bạn đã được ghi nhận:</h3>
+        <div class="essay-box" th:text="${baiTuLuan}"></div>
+
+        <a href="/bai-kiem-tra" class="back-btn">Làm Lại Bài Thi</a>
+    </div>
+
+</body>
+</html>

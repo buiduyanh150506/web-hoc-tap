@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Bài Kiểm Tra Toán 08</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 900px; margin: 0 auto; padding: 20px; line-height: 1.6; background-color: #f0f2f5; }
+        .quiz-container { background: white; padding: 40px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .timer { font-size: 26px; color: #d93025; font-weight: bold; position: fixed; top: 20px; right: 20px; background: white; padding: 15px 25px; border-radius: 50px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); border: 2px solid #d93025; z-index: 1000; }
+        .question { margin-bottom: 25px; padding: 20px; background: #fff; border: 1px solid #e0e0e0; border-left: 6px solid #1a73e8; border-radius: 8px; }
+        .point-badge { background-color: #fbbc04; color: #3c4043; padding: 4px 12px; border-radius: 15px; font-size: 13px; font-weight: bold; margin-left: 10px; }
+        input[type="text"] { width: 100%; padding: 12px; margin-top: 15px; border: 2px solid #ddd; border-radius: 6px; font-size: 16px; transition: border-color 0.3s; }
+        input[type="text"]:focus { border-color: #1a73e8; outline: none; }
+        h3 { color: #1a73e8; text-transform: uppercase; letter-spacing: 1px; margin-top: 40px; border-bottom: 2px solid #e8f0fe; padding-bottom: 10px; }
+        .btn-submit { background-color: #1a73e8; color: white; padding: 15px 40px; border: none; border-radius: 8px; font-size: 18px; font-weight: bold; cursor: pointer; display: block; margin: 40px auto; transition: background 0.3s; }
+        .btn-submit:hover { background-color: #1557b0; }
+    </style>
+</head>
+<body>
+
+    <div class="timer" id="time">45:00</div>
+
+    <div class="quiz-container">
+        <h1 style="text-align: center; color: #202124;">KIỂM TRA TOÁN HỌC - MÃ ĐỀ 08</h1>
+        <p style="text-align: center; color: #5f6368;">Thời gian: 45 phút | Tổng điểm: 100đ</p>
+
+        <form id="quizForm" action="/nop-bai" method="POST">
+            
+            <h3>I. Trắc nghiệm ngắn (12 câu - 60 điểm)</h3>
+            
+            <div class="question">
+                <p><b>Câu 1:</b> Tìm tỷ số phần trăm của 8,7 và 7,25. <span class="point-badge">5 điểm</span></p>
+                <input type="text" name="cau1" placeholder="Nhập kết quả...">
+            </div>
+
+            <div class="question">
+                <p><b>Câu 8:</b> Tổng của hai số là 280. Nếu viết thêm chữ số 2 vào bên trái số thứ nhất thì được số thứ 2. Tìm hai số đó? <span class="point-badge">5 điểm</span></p>
+                <input type="text" name="cau8" placeholder="VD: 40 và 240">
+            </div>
+
+            <div class="question">
+                <p><b>Câu 10:</b> Một khúc gỗ dài 1m8dm. Nếu cắt ra mỗi khúc dài 3dm thì cắt được mấy khúc và phải cắt bao nhiêu lần? <span class="point-badge">5 điểm</span></p>
+                <input type="text" name="cau10" placeholder="VD: 6 khúc, 5 lần">
+            </div>
+
+            <h3>II. Giải toán nhanh (3 bài - 40 điểm)</h3>
+
+            <div class="question">
+                <p><b>Bài 13:</b> Một cửa hàng có một số kg đậu xanh đựng đầy trong các bao... Hỏi cửa hàng đó có tất cả bao nhiêu kg đậu xanh? <span class="point-badge">10 điểm</span></p>
+                <input type="text" name="bai13" placeholder="Nhập số kg...">
+            </div>
+
+            <div class="question">
+                <p><b>Bài 14:</b> Thầy giáo ra cho hai bạn một lượng bài toán bằng nhau... Hỏi thầy giáo ra cho mỗi bạn bao nhiêu bài toán? <span class="point-badge">15 điểm</span></p>
+                <input type="text" name="bai14" placeholder="Nhập số bài tập...">
+            </div>
+
+            <div class="question">
+                <p><b>Bài 15:</b> Khoa mua quyển sách 200 trang, bị xé từ trang 100 đến 125. Hỏi cuốn sách này còn lại bao nhiêu trang? <span class="point-badge">15 điểm</span></p>
+                <input type="text" name="bai15" placeholder="Nhập số trang còn lại...">
+            </div>
+
+            <button type="button" class="btn-submit" onclick="handleManualSubmit()">NỘP BÀI THI</button>
+        </form>
+    </div>
+
+    <script>
+        let timeLeft = 45 * 60;
+        const timerDisplay = document.getElementById('time');
+        const quizForm = document.getElementById('quizForm');
+
+        const countdown = setInterval(() => {
+            let mins = Math.floor(timeLeft / 60);
+            let secs = timeLeft % 60;
+            timerDisplay.textContent = `${mins < 10 ? '0' : ''}${mins}:${secs < 10 ? '0' : ''}${secs}`;
+
+            if (--timeLeft < 0) {
+                clearInterval(countdown);
+                alert("Hết giờ! Bài thi sẽ được nộp tự động.");
+                quizForm.submit();
+            }
+        }, 1000);
+
+        function handleManualSubmit() {
+            if(confirm("Bạn muốn kết thúc bài thi và nộp bài ngay?")) {
+                quizForm.submit();
+            }
+        }
+    </script>
+</body>
+</html>
